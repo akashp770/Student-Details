@@ -39,6 +39,19 @@ router.get("/list", (req, res, next) => {
   });
 });
 
+router.get("/searchById", (req, res, next) => {
+  const idQuery = req.query.id;
+  StudentModel.find({ idQuery }, function (err, response) {
+    if (err) res.send(err);
+    else
+      res.send({
+        status: 200,
+        resultFound: response.length,
+        students: response,
+      });
+  });
+});
+
 router.get("/searchByFirstName", (req, res, next) => {
   const firstNameQuery = req.query.firstName;
   StudentModel.find({ firstName: firstNameQuery }, function (err, response) {
@@ -46,7 +59,36 @@ router.get("/searchByFirstName", (req, res, next) => {
     else
       res.send({
         status: 200,
-        resultFound:response.length
+        resultFound: response.length,
+        students: response,
+      });
+  });
+});
+
+router.put("/update", (req, res, next) => {
+  const department = req.query.department;
+  StudentModel.update(
+    { age: 24 },
+    { department: department },
+    function (err, response) {
+      if (err) res.send(err);
+      else
+        res.send({
+          status: 200,
+          resultFound: response.length,
+          students: response,
+        });
+    }
+  );
+});
+
+router.delete("/deleteUser", (req, res, next) => {
+  const id = req.query.userId;
+  StudentModel.findByIdAndDelete(id, function (err, response) {
+    if (err) res.send(err);
+    else
+      res.send({
+        status: 200,
         students: response,
       });
   });
