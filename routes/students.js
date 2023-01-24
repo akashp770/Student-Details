@@ -28,4 +28,28 @@ router.post("/add", (req, res, next) => {
   });
 });
 
+router.get("/list", (req, res, next) => {
+  StudentModel.find(function (err, response) {
+    if (err) res.send(err);
+    else
+      res.send({
+        status: 200,
+        students: response,
+      });
+  });
+});
+
+router.get("/searchByFirstName", (req, res, next) => {
+  const firstNameQuery = req.query.firstName;
+  StudentModel.find({ firstName: firstNameQuery }, function (err, response) {
+    if (err) res.send(err);
+    else
+      res.send({
+        status: 200,
+        resultFound:response.length
+        students: response,
+      });
+  });
+});
+
 module.exports = router;
